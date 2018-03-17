@@ -12,6 +12,8 @@
  * in memory as the program is run.
  */
 
+#include <stdlib.h>
+
 void function1(){
     static int bss; // This variable would be held on the bss segment, whereas
     static int data = 5; // this one would be held on the data segment.
