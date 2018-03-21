@@ -184,5 +184,33 @@ void inputNewName(){
 printCards(char *message, char *cards, int userPick){
   int count;
 
-  printf("");
+  printf("\n\t*** %s ***\n", message);
+  printf("     \t._.\t._.\t._.\n");
+  printf("Cards:\t|%c|\t|%c|\n\t", cards[0], cards[1], cards[2]);
+  if(userPick == -1){
+    printf(" 1 \t 2 \t 3\n");
+  }else{
+    for(count = 0; count < userPick; count++){
+      printf("\t");
+    }
+    printf(" ^-- your pick\n");
+  }
+}
+
+// This function takes wagers from the user.
+int takeWager(int availableCredits, int previousWager){
+  int wager, totalWager;
+
+  printf("How many of your %d credits would you like to wager? ", availableCredits);
+  scanf("%d", &wager);
+  if(wager < 1){
+    printf("You can't bet less than a single credit...");
+    return -1;
+  }
+  totalWager = previousWager + wager;
+  if(totalWager > availableCredits){
+    printf("You can't bet more credits than you have available to you.");
+    return -1;
+  }
+  return wager;
 }
