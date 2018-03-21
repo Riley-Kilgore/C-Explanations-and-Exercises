@@ -118,5 +118,32 @@ int getPlayerData(){
 // This is the function for a new user to register for our game.
 // It will add their information to the file where information is saved.
 void registerNewPlayer(){
+  int fd;
+
+  printf("Enter your name: ")
+  inputNewName();
+
+  player.uid = getuid();
+  player.highScore = player.credits = 100;
+
+  fd = open(DATAFILE, O_WRONLY|O_CREAT|O_APPEND, S_IRUSR|S_IWUSR);
+  if(fd == -1)
+    fatal("in registerNewPlayer() while opening file.");
+  write(fd, &player, sizeof(struct user));
+  close(fd);
+
+  printf("\n Welcome to the Game of Chance %s.\n", player.name);
+  printf("You have been given %u credits.\n", player.credits);
+}
+
+// Function to display the user's current high score.
+void showHighScore(){
+  unsigned int topScore = 0;
+  char topName[100];
+  struct user entry;
+  int fd;
+
+  
+
 
 }
