@@ -90,3 +90,33 @@ int main(){
   updatePlayer();
   printf("Hope you come again soon!");
 }
+
+// This following function reads data from the file on a given user.
+int getPlayerData(){
+  int fd, uid, readBytes;
+  struct user entry;
+
+  uid = getuid(); // Grabs the user id of the person starting the game.
+
+  fd = open(DATAFILE, O_RDONLY);
+
+  if(fd == -1) // The file didn't open, we may need to make one.
+    return -1;
+  readBytes = read(fd, &entry, sizeof(struct user)); // Reading the data in chunks.
+  while(entry.uid != uid && readBytes > 0){
+    readBytes = read(fd, &entry, sizeof(struct user)); /* Continues to read bytes in chunks the size of the user struct
+                                                        until the file is either empty or the correct user is found. */
+  }
+  close(fd);
+  if(readBytes < sizeof(struct user)) // Then EOF was reached and the user is not yet in the file.
+    return -1;
+  else
+    player = entry;
+  return 1; // Code ran successfully if we get here and set the player.
+}
+
+// This is the function for a new user to register for our game.
+// It will add their information to the file where information is saved.
+void registerNewPlayer(){
+
+}
