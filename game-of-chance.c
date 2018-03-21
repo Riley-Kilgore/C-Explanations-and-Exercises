@@ -158,3 +158,31 @@ void showHighScore(){
     printf("You currently have the high score of all users with a total of %u credits.", player.highScore);
   printf("\n=============================================================================\n\n")
 }
+
+// This is a function to award a jackpot to the player.
+void jackpot(){
+  printf("============== You won the jackpot!! ===============");
+  player.credits += 100;
+}
+
+//This is the function a player uses to change and create their name.
+void inputNewName(){
+  char *namePtr, inputChar = '\n';
+  while(inputChar == '\n'){ // Eat those new lines.
+    scanf("%c", &inputChar);
+  }
+  namePtr = (char *) &player.name;
+  while(inputChar != '\n')
+    *namePtr = inputChar;
+    scanf("%c", &inputChar);
+    namePtr++;
+  }
+  *namePtr = 0;
+}
+
+// This function is for the find the ace game, it prints out the cards.
+printCards(char *message, char *cards, int userPick){
+  int count;
+
+  printf("");
+}
