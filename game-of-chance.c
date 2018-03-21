@@ -65,9 +65,28 @@ int main(){
     scanf("%d", choice);
 
     if((choice < 1) || (choice > 7)){ // They didn't read the instructions or they're dying of boredom. (Been there).
-      printf("That wasn't a choice available to you.")
+      printf("That wasn't a choice available to you.");
     }else if(choice < 4){ // They want to play a game.
-      
+      if(choice != lastGame){
+        switch(choice){
+          case 1: player.currentGame = pickNumber; break;
+          case 2: player.currentGame = dealerNoMatch; break;
+          case 3: player.currentGame = findTheAce; break;
+        }
+        playGame();
+      }
+    }else if(choice == 4){
+      showHighScore();
+    }else if(choice == 5){
+      printf("Change username:\n");
+      printf("Enter a new user name: ");
+      inputNewName();
+      printf("\n Your name is changed! \n");
+    }else if(choice == 6){
+      printf("Your credits have been reset to 100!");
+      player.credits = 100;
     }
   }
+  updatePlayer();
+  printf("Hope you come again soon!");
 }
