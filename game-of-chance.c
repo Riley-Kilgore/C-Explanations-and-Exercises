@@ -143,7 +143,18 @@ void showHighScore(){
   struct user entry;
   int fd;
 
-  
-
-
+  printf("\n=========================|High Score|===========================\n");
+  fd = open(DATAFILE, O_RDONLY);
+  if(fd == -1)
+    fatal("in showHighScore() while opening file.");
+  while(read(fd, &entry, sizeof(struct user)) > 0){ // We continue to loop until EOF
+    if(entry.highScore > topScore){
+      topScore = entry.highScore;
+      strcpy(topName, entry.name);
+    }
+  }
+  close(fd);
+  if(topScore > player.highScore)
+    printf("You currently have the high score of all users with a total of %u credits.", player.highScore);
+  printf("\n=============================================================================\n\n")
 }
