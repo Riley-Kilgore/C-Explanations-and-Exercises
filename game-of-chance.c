@@ -246,5 +246,30 @@ int pickNumber(){
   int pick, winningNum;
 
   printf("\n####### Pick a Number #######\n");
+  printf("This game costs 10 credits to play. Just pick a number\n between 1 and 20, if you pick the right number, you win 100 credits!");
+  winningNum = (rand() % 20) + 1;
+  if(player.credits < 10){
+    printf("You only have %c credits, you can reset your credits at the main menu.", player.credits);
+    return -1;
+  }
+  player.credits -= 10;
+  printf("10 credits have been deducted from your account.\n")
+  printf("Pick a number between 1 and 20.");
+  scanf("%d", pick);
+
+  printf("The correct number was %d", winningNum);
+  if(pick == winningNum){
+    jackpot();
+  }else{
+    printf("Sorry! You lose..");
+  }
+  return 0;
+}
+
+// This is the no match dealer game.
+int dealerNoMatch(){
+  int i, j, numbers[16], wager = -1, match = -1;
+
+  printf("\n####### No Match Dealer #######\n");
   
 }
