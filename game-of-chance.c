@@ -56,7 +56,7 @@ int main(){
     printf("1 - Play Pick a Number");
     printf("2 - Play the Match Dealer Game");
     printf("3 - Play Find the Ace");
-    printf("4 - View your highscore");
+    printf("4 - View your high score");
     printf("5 - Change your user name");
     printf("6 - Reset your credits at 100.");
     printf("7 - Quit the game\n");
@@ -213,4 +213,38 @@ int takeWager(int availableCredits, int previousWager){
     return -1;
   }
   return wager;
+}
+
+// This function contains a loop that allows the current game to be replayed.
+void playGame(){
+  int playAgain;
+  int (*game)();
+  char select;
+
+  while(playAgain != 0){ // So long as the player wants to play again.
+    if(player.currentGame() != -1){ // If the game threw an error.
+      if(player.credits > player.highScore)
+        player.highScore = player.credits;
+      printf("You currently have %u credits.\n", player.credits);
+      updatePlayer();
+      printf("Would you like to play again? (y/n) ")
+      selection = '\n'
+      while(selection == '\n'){
+        scanf("%c", selection);
+      }
+      if(selection == n)
+        playAgain = 0;
+    }else{
+      playAgain = 0; // Here the player would have experienced an error and so
+                     // they cannot play again.
+    }
+  }
+}
+
+// This is the pick a number game.
+int pickNumber(){
+  int pick, winningNum;
+
+  printf("\n####### Pick a Number #######\n");
+  
 }
