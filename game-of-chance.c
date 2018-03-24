@@ -271,5 +271,40 @@ int dealerNoMatch(){
   int i, j, numbers[16], wager = -1, match = -1;
 
   printf("\n####### No Match Dealer #######\n");
-  
+  printf("In this game the player can wage as many of their credits as desired.");
+  printf("You will be dealt 16 random numbers between 0 and 99, then if there are no matches you win and double your wager.");
+
+  if(player.credits == 0){
+    printf("You don't have any credits to wager.");
+    return -1;
+  }
+  while(wager == -1)
+    wager = takeWager(player.credits, 0);
+
+  printf("::Dealing Numbers::");
+
+  for(i = 0; i < 16; i++){
+    numbers[i] = rand()%100;
+    printf("%2d\t", numbers[i]);
+    if(i%8 == 7)
+      printf(\n);
+  }
+  for(i=0; i < 15; i++){
+    j = i +1;
+    while(j < 16){
+      if(numbers[i] == numbers[j])
+        match = numbers[i];
+      j++;
+    }
+  }
+  if(match != -1){
+    printf("The number %d got matched, so you lose.. I'm taking those credits now.", match);
+    printf("%d credits have been removed from your account.", wager);
+    player.credtis -= wager;
+  }else{
+    printf("Looks like you won! I'll add those credits to your account.");
+    printf("%d credits have been added to your account.", wager);
+    player.credits += wager;
+  }
+  return 0;
 }
