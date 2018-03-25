@@ -308,3 +308,17 @@ int dealerNoMatch(){
   }
   return 0;
 }
+
+// The following function is the find the ace game.
+int findTheAce(){
+  int i, ace, wager;
+  int invalid, pick = -1, wager1 = -1, wager2 = -1;
+  char choiceTwo, cards[3] = {'X', 'X', 'X'};
+
+  ace = rand()%3;
+
+  printf("####### Find the Ace #######\n");
+  printf("In this game you can wager up to all of your credits.\n");
+  printf("If you correctly guess the ace's position you win, otherwise you lose your credits.\n");
+  prtinf("In the first round, one queen is revealed, at this point you can change your choice.\n");
+  
