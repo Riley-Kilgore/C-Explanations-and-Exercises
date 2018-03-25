@@ -7,6 +7,7 @@
  makes use of reading and writing files, as well as data segmentation, structs, and more.
 */
 #include <stdio.h>
+#include <unistd.h>
 #include <string.h>
 #include <fcntl.h>
 #include <sys/stat.h>
@@ -62,7 +63,7 @@ int main(){
     printf("7 - Quit the game\n");
     printf("Name: %s", player.name);
     printf("Credits: %u", player.credits);
-    scanf("%d", choice);
+    scanf("%d", &choice);
 
     if((choice < 1) || (choice > 7)){ // They didn't read the instructions or they're dying of boredom. (Been there).
       printf("That wasn't a choice available to you.");
@@ -120,7 +121,7 @@ int getPlayerData(){
 void registerNewPlayer(){
   int fd;
 
-  printf("Enter your name: ")
+  printf("Enter your name: ");
   inputNewName();
 
   player.uid = getuid();
@@ -156,7 +157,7 @@ void showHighScore(){
   close(fd);
   if(topScore > player.highScore)
     printf("You currently have the high score of all users with a total of %u credits.", player.highScore);
-  printf("\n=============================================================================\n\n")
+  printf("\n=============================================================================\n\n");
 }
 
 // This is a function to award a jackpot to the player.
@@ -172,7 +173,7 @@ void inputNewName(){
     scanf("%c", &inputChar);
   }
   namePtr = (char *) &player.name;
-  while(inputChar != '\n')
+  while(inputChar != '\n'){
     *namePtr = inputChar;
     scanf("%c", &inputChar);
     namePtr++;
@@ -181,12 +182,12 @@ void inputNewName(){
 }
 
 // This function is for the find the ace game, it prints out the cards.
-printCards(char *message, char *cards, int userPick){
+void printCards(char *message, char *cards, int userPick){
   int count;
 
   printf("\n\t*** %s ***\n", message);
   printf("     \t._.\t._.\t._.\n");
-  printf("Cards:\t|%c|\t|%c|\n\t", cards[0], cards[1], cards[2]);
+  printf("Cards:\t|%c|\t|%c|\t|%c|\n\t", cards[0], cards[1], cards[2]);
   if(userPick == -1){
     printf(" 1 \t 2 \t 3\n");
   }else{
@@ -219,7 +220,7 @@ int takeWager(int availableCredits, int previousWager){
 void playGame(){
   int playAgain;
   int (*game)();
-  char select;
+  char selection;
 
   while(playAgain != 0){ // So long as the player wants to play again.
     if(player.currentGame() != -1){ // If the game threw an error.
@@ -227,12 +228,12 @@ void playGame(){
         player.highScore = player.credits;
       printf("You currently have %u credits.\n", player.credits);
       updatePlayer();
-      printf("Would you like to play again? (y/n) ")
-      selection = '\n'
+      printf("Would you like to play again? (y/n) ");
+      selection = '\n';
       while(selection == '\n'){
-        scanf("%c", selection);
+        scanf("%c", &selection);
       }
-      if(selection == n)
+      if(selection == 'n')
         playAgain = 0;
     }else{
       playAgain = 0; // Here the player would have experienced an error and so
@@ -253,9 +254,9 @@ int pickNumber(){
     return -1;
   }
   player.credits -= 10;
-  printf("10 credits have been deducted from your account.\n")
+  printf("10 credits have been deducted from your account.\n");
   printf("Pick a number between 1 and 20.");
-  scanf("%d", pick);
+  scanf("%d", &pick);
 
   printf("The correct number was %d", winningNum);
   if(pick == winningNum){
@@ -287,7 +288,7 @@ int dealerNoMatch(){
     numbers[i] = rand()%100;
     printf("%2d\t", numbers[i]);
     if(i%8 == 7)
-      printf(\n);
+      printf("\n");
   }
   for(i=0; i < 15; i++){
     j = i +1;
@@ -300,7 +301,7 @@ int dealerNoMatch(){
   if(match != -1){
     printf("The number %d got matched, so you lose.. I'm taking those credits now.", match);
     printf("%d credits have been removed from your account.", wager);
-    player.credtis -= wager;
+    player.credits -= wager;
   }else{
     printf("Looks like you won! I'll add those credits to your account.");
     printf("%d credits have been added to your account.", wager);
@@ -320,5 +321,22 @@ int findTheAce(){
   printf("####### Find the Ace #######\n");
   printf("In this game you can wager up to all of your credits.\n");
   printf("If you correctly guess the ace's position you win, otherwise you lose your credits.\n");
-  prtinf("In the first round, one queen is revealed, at this point you can change your choice.\n");
-  
+  printf("In the first round, one queen is revealed, at this point you can change your choice.\n");
+  printf("In the second round, the ace is revealed and the game is over.");
+
+  if(player.credits == 0){
+    printf("You don't have any credits to wager..");
+    return -1;
+  }
+
+  while(wager1 == -1){
+    wager1 = takeWager(player.credits, 0);
+  }
+
+  printCards("Dealing Cards", cards, -1);
+  pick = -1;
+  while(pick < 1 || pick > 3){
+    printf("Pick a card, 1, 2, or 3.");
+    scanf("%d", &pick);
+  }
+}
