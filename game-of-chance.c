@@ -313,7 +313,7 @@ int dealerNoMatch(){
 // The following function is the find the ace game.
 int findTheAce(){
   int i, ace, wager;
-  int invalid, pick = -1, wager1 = -1, wager2 = -1;
+  int invalidChoice, pick = -1, wager1 = -1, wager2 = -1;
   char choiceTwo, cards[3] = {'X', 'X', 'X'};
 
   ace = rand()%3;
@@ -338,5 +338,27 @@ int findTheAce(){
   while(pick < 1 || pick > 3){
     printf("Pick a card, 1, 2, or 3.");
     scanf("%d", &pick);
+  }
+  pick--;
+  i = 0;
+  while(i == ace || i == pick){
+    i++;
+  }
+  cards[i] = 'Q';
+  printCards("Revealing one queen", cards, pick);
+  invalidChoice = 1;
+  while(invalidChoice == 1){
+    printf("Would you like to change your pick or increase your wager?");
+    printf("Please pick either c or i.");
+    choiceTwo = '\n';
+    while(choiceTwo == '\n'){
+      scanf("%c", &choiceTwo);
+    }
+    if(choiceTwo == 'i'){
+
+    }
+    if(choiceTwo == 'c'){
+
+    }
   }
 }
