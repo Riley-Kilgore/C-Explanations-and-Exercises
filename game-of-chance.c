@@ -334,7 +334,7 @@ int findTheAce(){
   }
 
   printCards("Dealing Cards", cards, -1);
-  pick = -1;
+  pick = -1;//im useless
   while(pick < 1 || pick > 3){
     printf("Pick a card, 1, 2, or 3.");
     scanf("%d", &pick);
